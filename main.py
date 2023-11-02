@@ -127,16 +127,8 @@ def main():
         print("Not enough vertical words found.")
         return
     
-    # print 4x8 table. Each row contains one of the horizontal words so that each td contains one character of the word upper cased.
-    print("<table>")
-    for word in horizontal_words:
-        print("<tr>")
-        for character in word:
-            print("<td>" + character.upper() + "</td>")
-        print("</tr>")
-    print("</table>")
-    
- 
+    print_html_table(horizontal_words, vertical_words)
+     
 def check_that_nth_index_word_fits(word_candidate, n, horizontal_words, eight_letter_words_without_ends):
     # concatenate horizontal_words items nth characters to variable combined.
     combined = ""
@@ -151,7 +143,22 @@ def check_that_nth_index_word_fits(word_candidate, n, horizontal_words, eight_le
         return True
     return False
 
+def print_html_table(horizontal_words, vertical_words):
+    # open template.html for writing.
+    # search in that file row with "let horizontal_words = [" and replace it with horizontal_words.
+    # search in that file row with "let vertical_words = [" and replace it with vertical_words.
+    # save the output to file output.html
+    # open output.html in browser.
 
+    # get random int of 4 digits.
+    random_int = str(random.randint(1000, 9999))
+
+    with open("template.html", "r") as input_file:
+        html = input_file.read()
+        html = html.replace("let horizontal_words = []", "let horizontal_words = " + str(horizontal_words))
+        html = html.replace("let vertical_words = []", "let vertical_words = " + str(vertical_words))
+        with open("output_" + random_int + ".html", "w") as output_file:
+            output_file.write(html)
 
 
         
