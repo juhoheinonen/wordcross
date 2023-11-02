@@ -39,6 +39,9 @@ def main():
     eight_letter_words_without_ends = set()
     for word in original_words:
         eight_letter_words_without_ends.add(word[2:-2])
+        eight_letter_words_without_ends.add(word[2:-3])
+        eight_letter_words_without_ends.add(word[2:-4])
+        eight_letter_words_without_ends.add(word[2:-5])
 
     horizontal_words = []
     vertical_words = []
@@ -49,34 +52,90 @@ def main():
         word_candidate = original_words.pop()
         eight_letter_words.remove(word_candidate)
         
-        # concatenate horizontal_words items third characters to variable combined.
+        first_word_fits = check_that_nth_index_word_fits(word_candidate, 2, horizontal_words, eight_letter_words_without_ends)
+        if first_word_fits:
+            second_word_fits = check_that_nth_index_word_fits(word_candidate, 3, horizontal_words, eight_letter_words_without_ends)
+            if second_word_fits:
+                third_word_fits = check_that_nth_index_word_fits(word_candidate, 4, horizontal_words, eight_letter_words_without_ends)
+                if third_word_fits:
+                    fourth_word_fits = check_that_nth_index_word_fits(word_candidate, 5, horizontal_words, eight_letter_words_without_ends)
+                    if fourth_word_fits:
+                        horizontal_words.append(word_candidate)            
+    
+    print(horizontal_words)
+
+    if (len(horizontal_words) < 4):
+        print("Not enough horizontal words found.")
+        return
+
+    # vertical words.
+    while len(vertical_words) < 1:
+        # combine third letters of horizontal words to variable combined.
         combined = ""
         for word in horizontal_words:
             combined += word[2]
-        # add third character of word_candidate to combined.
-        combined += word_candidate[2]
-
-        # store to variable possible_words all words that start with combined in eight_letter_words_without_ends.
-        possible_words = []
-        for word in eight_letter_words_without_ends:
-            if word.startswith(combined):
-                possible_words.append(word)
-                if len(possible_words) > (4 - len(combined)):
-                    break
-        # if possible_words is greater than 3, add word_candidate to horizontal_words.
-        if len(possible_words) > (4 - len(combined)):
-            horizontal_words.append(word_candidate)
-
-    # vertical words.
-    current_index = 0
-    while (len(original_words) > 0 and len(vertical_words < 4)):
-        # from horizontal_words, get character at index current_index + 2 and store it to variable combined.
+            
+        # find such a word from eight_letter_words that has combined as its 3rd, 4th, 5th and 6th characters.
+        for word in eight_letter_words:
+            if word[2:6] == combined:
+                vertical_words.append(word)
+                eight_letter_words.remove(word)
+                break
+    
+    while len(vertical_words) < 2:
+        # combine fourth letters of horizontal words to variable combined.
         combined = ""
         for word in horizontal_words:
-            combined += word[current_index + 2]
-        break
+            combined += word[3]
 
+        # find such a word from eight_letter_words that has combined as its 3rd, 4th, 5th and 6th characters.
+        for word in eight_letter_words:
+            if word[2:6] == combined:
+                vertical_words.append(word)
+                eight_letter_words.remove(word)
+                break
 
+    while len(vertical_words) < 3:
+        # combine fifth letters of horizontal words to variable combined.
+        combined = ""
+        for word in horizontal_words:
+            combined += word[4]
+
+        # find such a word from eight_letter_words that has combined as its 3rd, 4th, 5th and 6th characters.
+        for word in eight_letter_words:
+            if word[2:6] == combined:
+                vertical_words.append(word)
+                eight_letter_words.remove(word)
+                break
+
+    while len(vertical_words) < 4:
+        # combine sixth letters of horizontal words to variable combined.
+        combined = ""
+        for word in horizontal_words:
+            combined += word[5]
+
+        # find such a word from eight_letter_words that has combined as its 3rd, 4th, 5th and 6th characters.
+        for word in eight_letter_words:
+            if word[2:6] == combined:
+                vertical_words.append(word)
+                eight_letter_words.remove(word)
+                break
+
+    print(vertical_words)
+ 
+def check_that_nth_index_word_fits(word_candidate, n, horizontal_words, eight_letter_words_without_ends):
+    # concatenate horizontal_words items nth characters to variable combined.
+    combined = ""
+    for word in horizontal_words:
+        combined += word[n]
+    # add third character of word_candidate to combined.
+    combined += word_candidate[n]
+
+    # store to variable possible_words all words that start with combined in eight_letter_words_without_ends.
+    possible_words = []
+    if combined in eight_letter_words_without_ends:
+        return True
+    return False
 
 
 
