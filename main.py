@@ -122,6 +122,20 @@ def main():
                 break
 
     print(vertical_words)
+
+    if (len(vertical_words) < 4):
+        print("Not enough vertical words found.")
+        return
+    
+    # print 4x8 table. Each row contains one of the horizontal words so that each td contains one character of the word upper cased.
+    print("<table>")
+    for word in horizontal_words:
+        print("<tr>")
+        for character in word:
+            print("<td>" + character.upper() + "</td>")
+        print("</tr>")
+    print("</table>")
+    
  
 def check_that_nth_index_word_fits(word_candidate, n, horizontal_words, eight_letter_words_without_ends):
     # concatenate horizontal_words items nth characters to variable combined.
