@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 import random
 import pygtrie as trie
+import os.path
 
 def main():
     # read from kotus-sanalista_v1.xml
@@ -136,9 +137,7 @@ def check_that_nth_index_word_fits(word_candidate, n, horizontal_words, eight_le
         combined += word[n]
     # add third character of word_candidate to combined.
     combined += word_candidate[n]
-
-    # store to variable possible_words all words that start with combined in eight_letter_words_without_ends.
-    possible_words = []
+    
     if combined in eight_letter_words_without_ends:
         return True
     return False
@@ -157,7 +156,16 @@ def print_html_table(horizontal_words, vertical_words):
         html = input_file.read()
         html = html.replace("let horizontal_words = []", "let horizontal_words = " + str(horizontal_words))
         html = html.replace("let vertical_words = []", "let vertical_words = " + str(vertical_words))
-        with open("output_" + random_int + ".html", "w") as output_file:
+
+        output_path = "html_output/output.txt"
+
+        # if file exists, add running numbers as much as needed. Start running numbers from 1 and increment by one.
+        first_running_number = 1
+        while os.path.exists(output_path):
+            output_path = "html_output/output" + str(first_running_number) + ".html"
+            first_running_number += 1            
+
+        with open(output_path, "w") as output_file:
             output_file.write(html)
 
 
