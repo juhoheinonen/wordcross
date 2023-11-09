@@ -147,11 +147,7 @@ def print_html_table(horizontal_words, vertical_words):
     # search in that file row with "let horizontal_words = [" and replace it with horizontal_words.
     # search in that file row with "let vertical_words = [" and replace it with vertical_words.
     # save the output to file output.html
-    # open output.html in browser.
-
-    # get random int of 4 digits.
-    random_int = str(random.randint(1000, 9999))
-
+    # open output.html in browser.    
     with open("template.html", "r") as input_file:
         html = input_file.read()
         html = html.replace("let horizontal_words = []", "let horizontal_words = " + str(horizontal_words))
